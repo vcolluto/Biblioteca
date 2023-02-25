@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Modifica libro</title>
+<link th:replace="~{fragments/bootstrap :: head}"></link>
+</head>
+<body>
+<div class="container">
+  <h1>Modifica libro</h1>
+  <hr/>
+	<form id="book-form" th:object="${book}" th:action="@{/books/edit/{id}(id=${book.id})}"
+	  method="post">
+	<ul>
+		<li th:each="err : ${#fields.allErrors()}" th:text="${err}" class="text-danger"></li>
+	</ul>
+	<div class="row">
+		<div class="col-8">
+		  
+			<label class="form-label" for="title">Titolo</label>
+		  	<input class="form-control" type="text" id="title" th:field="*{title}" th:errorClass="is-invalid"></input>  	
+		  		<div th:if="${#fields.hasErrors('title')}" class="invalid-feedback">
+					<ul>
+						<li th:each="err : ${#fields.errors('title')}" th:text="${err}"></li>
+					</ul>
+				</div>
+				
+		  	<label class="form-label" for="author">Autore</label>
+		  	<input class="form-control" type="text" id="author" th:field="*{author}"></input>
+		 	
+		  
+			<label class="form-label" for="isbn">ISBN</label>
+		  	<input class="form-control" type="text" id="isbn" th:field="*{isbn}"></input>
+		  	
+		  	<label class="form-label" for="copies">Copies</label>
+			<input type="number" class="form-control" id="copies" th:field="*{availableCopies}" th:errorClass="is-invalid">
+								
+		  	<div class="col-12 mt-3">
+		  		<button class="btn btn-primary" type="submit"><i class="fas fa-check"></i> Save</button>
+			</div>
+		</div>
+		<div class="col-4">
+			<h4>Categories</h4>
+			<div class="form-check" th:each="cat : ${categoryList}">
+			  <input class="form-check-input" type="checkbox" th:id="|category_${cat.id}|" th:value="${cat.id}" th:field="*{categories}">
+			  <label class="form-check-label" th:for="|category_${cat.id}|" th:text="${cat.category}"></label>
+			</div>
+		</div>
+	</div>
+	</form>
+</div>
+	<script th:replace="~{fragments/bootstrap :: script}"></script>
+</body>
+</html>

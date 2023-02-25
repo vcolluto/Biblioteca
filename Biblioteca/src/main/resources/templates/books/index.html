@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Elenco libri</title>
+	<link th:replace="~{fragments/bootstrap :: head}"></link>
+	<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.4/css/all.css} "/>
+</head>
+<body>
+<div class="container">
+<th:block th:if="${successMessage != null}">
+	<div th:replace="fragments/components :: successMessage(${successMessage})"></div>
+</th:block>
+  <div class="mb-3 d-flex justify-content-between">
+  
+	<a class="btn btn-primary" th:href="@{/books/create}"><i class="fas fa-plus"></i> Add Book</a>
+	<form th:action="@{/books}" method="get">
+        <div class="input-group">
+        	<input name="keyword" th:value="${keyword}" class="form-control" type="search" placeholder="Search" aria-label="Search">
+        	<button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+     	</div>
+     </form>
+  </div>
+	<table class="table">
+		<thead>
+		
+			<tr>
+				<td><b>Titolo</b></td>
+				<td><b>Autore</b></td>
+				<td><b>ISBN</b></td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="book: ${elencoLibri}">
+				<td>
+					<a th:href="@{'books/'+ ${book.id}}" th:text="${book.title}"></a>
+				</td>
+				<td th:text="${book.author}"></td>
+				<td th:text="${book.isbn}"></td>
+				<td>
+				<form action="#" th:action="@{'/books/delete/{id}'(id=${book.id})}" method="post">
+				  <button class="btn btn-primary" type="submit" id="submitButton">
+				    <i class="fas fa-trash-alt"></i>
+				  </button></td>
+				</form>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script th:replace="~{fragments/bootstrap :: script}"></script>
+</body>
+</html>

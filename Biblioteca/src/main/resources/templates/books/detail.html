@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Dettaglio libro</title>
+<link th:replace="~{fragments/bootstrap :: head}"></link>
+<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.4/css/all.css} "/>
+</head>
+<body>
+
+
+<div class="container">
+ <h2 th:text="${book.title}"></h2>
+ <div class="row">
+ <div class="col-8">
+ 
+	<dl>
+	    <dt>Author:</dt>
+	    <dd th:text="${book.author}"></dd>
+	
+	    <dt>ISBN:</dt>
+	    <dd th:text="${book.isbn}"></dd>
+	    
+	    <dt>Total copies:</dt>
+	    <dd th:text="${book.availableCopies}"></dd>
+		<dt>Available copies:</dt>
+	    <dd th:text="${copiedisp}"></dd>
+		
+	</dl>
+	
+	</div>
+	<div class="col-4">
+		<h3>Categories</h3>
+		<ul>
+			<li th:each="cat : ${book.categories}" th:text="${cat.category}"></li>
+		</ul>
+	</div>
+	</div>
+	<div class="col-12">
+		<h3>Borrowings</h3>
+		
+		<div class="mb-2">
+			<a 
+				class="btn btn-primary" 
+				th:classAppend="${book.availableCopies == 0} ? 'disabled' : ''" 
+				th:href="@{|/borrowings/create?bookId=${book.id}}"
+			>New Borrow</a>
+		</div>
+		<table class="table" th:if="${book.borrowings.size() > 0}">
+			<thead>
+				<tr>
+					<th>Borrowing Date</th>
+					<th>Return Date</th>
+					<th>Note</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="borrow : ${book.borrowings}">
+					<td th:text="${borrow.borrowingDate}"></td>
+					<td th:text="${borrow.returnDate}"></td>
+					<td th:text="${borrow.note}"></td>
+					<td>
+						<a class="btn btn-primary" th:href="@{|/borrowings/edit/${borrow.id}|}"><i class="fas fa-edit"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div th:unless="${book.borrowings.size() > 0}">
+			<div class="alert alert-primary">
+				There are no borrowings for this book
+			</div>
+		</div>
+	</div>
+ </div>
+
+<script th:replace="~{fragments/bootstrap :: script}"></script>
+</body>
+</html>

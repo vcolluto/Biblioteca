@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<ul th:fragment="navbar(pagina)" class="nav nav-tabs">
+	<li class="nav-item" >
+		<a class="nav-link" th:href="@{/}" th:classAppend="${pagina=='home'}? active : not-active">Home</a>
+	</li>
+	<li class="nav-item" >
+		<a class="nav-link" th:href="@{/studenti}" th:classAppend="${pagina=='studenti'}? active : not-active">Studenti</a>
+	</li>
+</ul>
+</body>
+</html>

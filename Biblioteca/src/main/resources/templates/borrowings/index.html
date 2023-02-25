@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Elenco prestiti</title>
+	<link th:replace="~{fragments/bootstrap :: head}"></link>
+	<link th:rel="stylesheet" th:href="@{/webjars/font-awesome/5.15.4/css/all.css} "/>
+</head>
+<body>
+<div class="container">
+<th:block th:if="${successMessage != null}">
+	<div th:replace="fragments/components :: successMessage(${successMessage})"></div>
+</th:block>
+  <div class="mb-3 d-flex justify-content-between">
+  
+	<a class="btn btn-primary" th:href="@{/borrowings/create}"><i class="fas fa-plus"></i>Aggiungi prestito</a>
+	
+  </div>
+	<table class="table">
+		<thead>
+		
+			<tr>
+				<td><b>Id</b></td>
+				<td><b>Data</b></td>
+				<td><b>Restituzione</b></td>
+				<td><b>Libro</b></td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="borrowing: ${elencoPrestiti}">
+				<td>
+					<a th:href="@{'borrowings/'+ ${borrowing.id}}" th:text="${borrowing.id}"></a>
+				</td>
+				<td th:text="${#temporals.format(borrowing.borrowingDate,'dd/MM/yyyy')}"></td>
+				<td th:text="${#temporals.format(borrowing.returnDate,'dd/MM/yyyy')}"></td>
+				<td th:text="${borrowing.book.title}"></td>
+				<td>
+				
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script th:replace="~{fragments/bootstrap :: script}"></script>
+</body>
+</html>

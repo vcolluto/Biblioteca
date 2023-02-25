@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Nuovo prestito</title>
+<link th:replace="~{fragments/bootstrap :: head}"></link>
+</head>
+<body>
+	<div class="container">
+			<h1>Borrow <span th:text="${borrowing.book.title}"></span></h1>
+			<hr/>
+			
+			<form 
+				id="borrowing-form"
+				th:action="@{/borrowings/create}"
+				method="post"
+				th:object="${borrowing}"
+			>
+				<input type="hidden" th:field="*{book}" id="book">
+				<div class="row w-50 gy-2">
+					<div class="col-12">
+						<label class="form-label" for="borrowingDate">Borrowing Date</label>
+						<input type="date" class="form-control" id="borrowingDate" th:field="*{borrowingDate}" th:errorClass="is-invalid">
+						<div th:if="${#fields.hasErrors('borrowingDate')}" class="invalid-feedback">
+							<ul>
+								<li th:each="err : ${#fields.errors('borrowingDate')}" th:text="${err}"></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-12">
+						<label class="form-label" for="returnDate">Return Date</label>
+						<input type="date" class="form-control" id="returnDate" th:field="*{returnDate}" th:errorClass="is-invalid">
+						<div th:if="${#fields.hasErrors('returnDate')}" class="invalid-feedback">
+							<ul>
+								<li th:each="err : ${#fields.errors('returnDate')}" th:text="${err}"></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-12">
+						<label class="form-label" for="note">Note</label>
+						<input type="text" class="form-control" id="note" th:field="*{note}" th:errorClass="is-invalid">
+						<div th:if="${#fields.hasErrors('note')}" class="invalid-feedback">
+							<ul>
+								<li th:each="err : ${#fields.errors('note')}" th:text="${err}"></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-12">
+						<button class="btn btn-primary" type="submit"><i class="fas fa-check"></i> Save</button>
+						<a class="btn btn-primary" th:href="@{|/books/${borrowing.book.id}|}"><i class="fas fa-times"></i> Cancel</a>
+					</div>
+				</div>
+			</form>
+		</div>
+		</body>
+<script th:replace="~{fragments/bootstrap :: script}"></script>
+
+</html>
